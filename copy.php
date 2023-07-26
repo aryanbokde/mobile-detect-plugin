@@ -119,7 +119,7 @@ function ast_custom_form_submit() {
 
         //Send response
         $response = array(
-            'message' => 'Form submitted successfully!' . $sent,
+            'message' => 'Form submitted successfully!',
         );
         wp_send_json_success($response);
     }
