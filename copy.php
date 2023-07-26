@@ -1,10 +1,5 @@
 <?php
-/**
- * Plugin Name: Mobile Device Detector
- * Description: Detects mobile devices and performs actions based on the detection.
- * Version: 1.0
- * Author: Your Name
- */
+
 if (!defined('ABSPATH')) {
     die('401 Unauthorized: Access is denied');
 }
@@ -50,8 +45,8 @@ function ast_mobile_detect_plugin_shortcode() {
     ?>
 
         <form id="ast_mobile_detect_formHandler">
-            <div id="ast-errors"></div>
-            <div id="ast-success"></div>
+            <div id="errors"></div>
+            <div id="success"></div>
             <!-- Your form fields here -->
             <p><input type="text" name="name" placeholder="Name" id="name"></p>
             <p><input type="text" name="email" placeholder="Email" id="email"></p>
@@ -95,15 +90,17 @@ function ast_custom_form_submit() {
     if (empty($_POST['mobile'])) {
         $errors['mobile'] = "Mobile Field is required."; 
     }
-    if (!is_valid_mobile_number($mobile)) {
-        $errors['mobile'] = 'Invalid mobile number. Please enter a valid 10-digit number starting with 7, 8, or 9.';
-    }
 
     //	
     $to = $email;
     $subject = "Download Link";
 	$download_link = 'https://kharadionline.com/oxfam/wp-content/uploads/2023/07/3744.webp';
 
+    
+	
+	// if ($sent != true) {
+	// 	$errors['errors'] = "Failed to send the email."; 
+	// }
 
     if (!empty($errors)) {       
 
@@ -114,11 +111,11 @@ function ast_custom_form_submit() {
 
     }else{
 
-        // // Register new user when form submited
-        // ast_mobile_detect_woo_user_register($name, $email, $mobile);
+        // Register new user when form submited
+        ast_mobile_detect_woo_user_register($name, $email, $mobile);
 
-        // // Add $attachments as the fifth parameter if you have attachments.
-        // send_download_email($to, $subject, $download_link /*, $attachments*/ );
+        // Add $attachments as the fifth parameter if you have attachments.
+        send_download_email($to, $subject, $download_link /*, $attachments*/ );
 
         //Send response
         $response = array(
@@ -126,6 +123,8 @@ function ast_custom_form_submit() {
         );
         wp_send_json_success($response);
     }
+
+
 
 }
 
@@ -186,26 +185,21 @@ function ast_mobile_detect_woo_user_register($name, $email, $mobile){
         $customer->set_billing_first_name( $name );
         $customer->set_billing_phone( $mobile );
 
-        // Save data to database (add the user meta data)
-        $customer->save(); 
+        $customer->save(); // Save data to database (add the user meta data)
+
+        // Log in the new user (optional)
+        // wp_set_current_user($user_id);
+        // wp_set_auth_cookie($user_id);
+
+        // Redirect the user after successful registration (optional)
+        // wp_redirect(wc_get_page_permalink('myaccount'));
+        // exit;
         return true;
-
     } else {
-
+        // Email address already exists, handle the duplicate case as needed
+        // For example, display an error message to the user or redirect to a specific page
+        // wp_redirect(wc_get_page_permalink('checkout'));
+        // exit;
         return false;
-
-    }
-}
-
-function is_valid_mobile_number($mobile_number) {
-    // Define the regular expression pattern for a valid mobile number.
-    // For this example, I'll assume a simple 10-digit number starting with 7, 8, or 9.
-    $pattern = '/^[6789]\d{9}$/';
-
-    // Use preg_match to check if the mobile number matches the pattern.
-    if (preg_match($pattern, $mobile_number)) {
-        return true; // Valid mobile number.
-    } else {
-        return false; // Invalid mobile number.
     }
 }

@@ -15,8 +15,11 @@ jQuery(document).ready(function($) {
                 // Do any additional handling of the response data here
                 if ( response.success === true ) {
 
-                    alert(response.data.message);
-                    console.log(response);
+                    var elementID = 'ast-success';
+
+                    // Append the message to the element with the specified ID
+                    $('#' + elementID).append("<p class='ast-success'>" + response.data.message + "</p>" );
+                    
                     // Clear form inputs and enable the submit button
                     $form[0].reset();
                     // Enable the submit button after form submission
@@ -24,7 +27,8 @@ jQuery(document).ready(function($) {
                     // Automatically reset the form after 3 seconds
                     setTimeout(function() {
                         $form.find('.error-message').remove();
-                    }, 30000);
+                        $('.ast-success').remove();
+                    }, 3000);
                     
                 }else{
 
@@ -34,7 +38,7 @@ jQuery(document).ready(function($) {
                     // Display error messages next to corresponding input fields
                     if (response.data.errors) {
                         $.each(response.data.errors, function(field,message) {
-                            $('#' + field).after('<span class="error-message" style="color:red;">' + message + '</span>');
+                            $('#' + field).after('<span class="error-message">' + message + '</span>');
                         });
                     }
 
@@ -44,18 +48,18 @@ jQuery(document).ready(function($) {
                     // Automatically reset the form after 3 seconds
                     setTimeout(function() {
                         $form.find('.error-message').remove();
-                    }, 30000);
+                    }, 3000);
 
                 }                
             },
             error: function(xhr, textStatus, errorThrown) {
-                alert('Error: ' + xhr.responseText);
+                console.log('Error: ' + xhr.responseText);
                 // Enable the submit button after form submission
                 $form.find('button[type="submit"]').prop('disabled', false);
                 // Automatically reset the form after 3 seconds
                 setTimeout(function() {
                     $form.find('.error-message').remove();
-                }, 30000);
+                }, 3000);
             }
         });
     });
