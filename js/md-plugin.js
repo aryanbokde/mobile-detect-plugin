@@ -1,13 +1,13 @@
 jQuery(document).ready(function ($) {
-    $('#ast_mobile_detect_formHandler').on('submit', function (e) {
+    $('#md_plugin_formHandler').on('submit', function (e) {
         e.preventDefault();
         var $form = $(this);
         var formData = $form.serialize();
         $form.find('button[type="submit"]').prop('disabled', true);
         $.ajax({
             type: 'POST',
-            url: ast_ajax_object.ajax_url,
-            data: formData + '&action=ast_custom_form_submit',
+            url: md_plugin_ajax_object.ajax_url,
+            data: formData + '&action=md_plugin_form_submission_validator',
             success: function (response) {
                 // Do any additional handling of the response data here
                 if (response.success === true) {
@@ -23,23 +23,20 @@ jQuery(document).ready(function ($) {
                     setTimeout(function () {
                         $form.find('.error-message').remove();
                         $('.ast-success').remove();
-                    }, 3000);
+                    }, 30000);
 
                 } else {
-					
                     if (response.data.errors) {
                         $.each(response.data.errors, function (field, message) {
                             $('#' + field).after('<span class="error-message">' + message + '</span>');
                         });
                     }
-
                     // Enable the submit button after form submission
                     $form.find('button[type="submit"]').prop('disabled', false);
-
                     // Automatically reset the form after 3 seconds
                     setTimeout(function () {
                         $form.find('.error-message').remove();
-                    }, 3000);
+                    }, 30000);
 
                 }
             },
@@ -48,15 +45,15 @@ jQuery(document).ready(function ($) {
                 $form.find('button[type="submit"]').prop('disabled', false);
                 setTimeout(function () {
                     $form.find('.error-message').remove();
-                }, 3000);
+                }, 30000);
             }
         });
 
     });
     // Reset the form and remove error messages when the "Reset" button is clicked
-    // $('#ast_mobile_detect_formHandler').on('reset', function() {
-    $('#ast_mobile_detect_formHandler').find('.error-message').remove();
-    $('#ast_mobile_detect_formHandler').find('button[type="submit"]').prop('disabled', false);
+    // $('#md_plugin_formHandler').on('reset', function() {
+    $('#md_plugin_formHandler').find('.error-message').remove();
+    $('#md_plugin_formHandler').find('button[type="submit"]').prop('disabled', false);
     // });
 });
 
