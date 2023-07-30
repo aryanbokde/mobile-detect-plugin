@@ -10,11 +10,6 @@ if (!defined('ABSPATH')) {
     die('401 Unauthorized: Access is denied');
 }
 
-$site_key = '6LcEXlgnAAAAAOBunRmG58QcHN9cMgbbiG7avohh';
-$secret_key = '6LcEXlgnAAAAAE76unVQnUCk5Hzhwp9iBncN91aJ';
-
-$plugin_name = 'md_plugin'; 
-
 // Activation hook
 register_activation_hook(__FILE__, 'md_plugin_activate');
 function md_plugin_activate() {
@@ -40,24 +35,24 @@ add_action('wp_enqueue_scripts', 'md_plugin_scripts');
 function md_plugin_for_footer_script() {
 	$site_key = get_option('md_plugin_site_key');
 	if(!empty($site_key)){ ?>
-<script>
-    jQuery(document).ready(function () {
-        const siteKey = '<?php echo $site_key ?>';
+    <script>
+        jQuery(document).ready(function () {
+            const siteKey = '<?php echo $site_key ?>';
 
-        // Load ReCAPTCHA
-        grecaptcha.ready(function () {
-            // Request the token
-            grecaptcha.execute(siteKey, {
-                action: 'submit'
-            }).then(function (token) {
-                // Append the token to your form
-                jQuery('.g-recaptcha').append(
-                    '<input type="hidden" name="recaptcha_response" value="' + token + '">');
+            // Load ReCAPTCHA
+            grecaptcha.ready(function () {
+                // Request the token
+                grecaptcha.execute(siteKey, {
+                    action: 'submit'
+                }).then(function (token) {
+                    // Append the token to your form
+                    jQuery('.g-recaptcha').append(
+                        '<input type="hidden" name="recaptcha_response" value="' + token + '">');
+                });
             });
         });
-    });
-</script>
-<?php }
+    </script>
+    <?php }
 }
 add_action('wp_footer', 'md_plugin_for_footer_script');
 
@@ -272,17 +267,17 @@ function md_plugin_add_admin_menu() {
 // Settings page content
 function md_plugin_settings_page() {
     ?>
-<div class="wrap">
-    <h1>MD reCAPTCHA Settings</h1>
-    <form method="post" action="options.php">
-        <?php
-                settings_fields('md_plugin_options');
-                do_settings_sections('md_plugin_settings');
-                submit_button();
-            ?>
-    </form>
-</div>
-<?php
+    <div class="wrap">
+        <h1>MD reCAPTCHA Settings</h1>
+        <form method="post" action="options.php">
+            <?php
+                    settings_fields('md_plugin_options');
+                    do_settings_sections('md_plugin_settings');
+                    submit_button();
+                ?>
+        </form>
+    </div>
+    <?php
 }
 
 // Register and add settings
@@ -325,11 +320,3 @@ function custom_recaptcha_plugin_save_keys() {
     }
 }
 
-// // Display the reCAPTCHA on your forms
-// function custom_recaptcha_display() {
-//     $site_key = get_option('md_plugin_site_key');
-
-//     if (!empty($site_key)) {
-//         echo '<script src="https://www.google.com/recaptcha/api.js?render=' . esc_attr($site_key) . '"></script>';
-//     }
-// }
