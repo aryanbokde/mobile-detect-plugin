@@ -1,6 +1,7 @@
 jQuery(document).ready(function ($) {
     $('#md_plugin_formHandler').on('submit', function (e) {
         e.preventDefault();
+        $('#md_plugin_formHandler').find('.error-message').remove();
         var $form = $(this);
         var formData = $form.serialize();
         $form.find('button[type="submit"]').prop('disabled', true);
@@ -23,7 +24,7 @@ jQuery(document).ready(function ($) {
                     setTimeout(function () {
                         $form.find('.error-message').remove();
                         $('.ast-success').remove();
-                    }, 30000);
+                    }, 3000);
 
                 } else {
                     if (response.data.errors) {
@@ -36,7 +37,7 @@ jQuery(document).ready(function ($) {
                     // Automatically reset the form after 3 seconds
                     setTimeout(function () {
                         $form.find('.error-message').remove();
-                    }, 30000);
+                    }, 3000);
 
                 }
             },
@@ -45,7 +46,7 @@ jQuery(document).ready(function ($) {
                 $form.find('button[type="submit"]').prop('disabled', false);
                 setTimeout(function () {
                     $form.find('.error-message').remove();
-                }, 30000);
+                }, 3000);
             }
         });
 

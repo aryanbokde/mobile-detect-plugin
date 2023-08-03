@@ -80,8 +80,8 @@ function md_plugin_shortcode() {
         <div id="ast-success"></div>
         <!-- Your form fields here -->
         <p><input type="text" name="name" placeholder="Name" id="name"></p>
-        <p><input type="text" name="email" placeholder="Email" id="email"></p>
-        <p><input type="text" name="mobile" placeholder="Mobile" id="mobile"></p>
+        <p><input type="email" name="email" placeholder="Email" id="email"></p>
+        <p><input type="number" name="mobile" placeholder="Mobile" id="mobile"></p>
         <p><input type="hidden" name="ast_nonce" id="ast-custom-nonce"
                 value="<?php echo wp_create_nonce( 'ast-custom-nonce-action' ); ?>"></p>
         <div class="g-recaptcha" id="recaptcha"></div>
